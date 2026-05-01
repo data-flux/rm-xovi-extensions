@@ -2,9 +2,6 @@
 #include <QProcess>
 #include <QProcessEnvironment>
 #include <QString>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonValue>
 #include <QVariant>
 #include <QQmlEngine>
 
