@@ -25,6 +25,8 @@ public:
     explicit AsyncCommandExecutor(QObject *parent = nullptr) : QObject(parent), m_command(""), m_arguments(), m_running(false), m_exitCode(-1) {
         QObject::connect(&m_process, &QProcess::finished,
                        this, &AsyncCommandExecutor::finished);
+        QObject::connect(&m_process, &QProcess::channelReadyRead,
+                       this, &AsyncCommandExecutor::ioAvailable);
         
         m_process.setProcessChannelMode(QProcess::ForwardedChannels);
     }
@@ -156,6 +158,34 @@ private slots:
         
         emit runningChanged();
         emit exitCodeChanged();
+    }
+
+    void ioAvailable(int channel)
+    {
+      while(channel == QProcess::StandardOutput && m_process.canReadLine())
+      {
+          QByteArray read_data = m_process.readLine().trimmed();
+          if(read_data.length() > 0)
+          {
+              QString read_string(read_data);
+              emit stdOutAvailable(read_string);
+          }
+      }
+
+      if(channel == QProcess::StandardError)
+      {
+          m_process.setReadChannel(QProcess::StandardError);
+          while(m_process.canReadLine())
+          {
+              QByteArray read_data = m_process.readLine().trimmed();
+              if(read_data.length() > 0)
+              {
+                  QString read_string(read_data);
+                  emit stdErrAvailable(read_string);
+              }
+          }
+          m_process.setReadChannel(QProcess::StandardOutput);
+      }
     }
 };
 
