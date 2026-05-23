@@ -4,10 +4,11 @@
 #include <QQmlApplicationEngine>
 #include <dlfcn.h>
 #include "CommandExecutor.h"
-
+#include "AsyncCommandExecutor.h"
 
 extern "C" void _xovi_construct(){
     qmlRegisterType<CommandExecutor>("net.asivery.CommandExecutor", 1, 0, "CommandExecutor");
+    qmlRegisterType<AsyncCommandExecutor>("net.asivery.CommandExecutor", 1, 0, "AsyncCommandExecutor");
 }
 
 extern "C" char _xovi_shouldLoad() {

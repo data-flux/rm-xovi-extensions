@@ -12,7 +12,7 @@ CONFIG += c++11
 # Specify the source files
 SOURCES += main.cpp
 
-HEADERS += CommandExecutor.h
+HEADERS += CommandExecutor.h AsyncCommandExecutor.h
 
 QMAKE_CXXFLAGS += -fPIC 
 
