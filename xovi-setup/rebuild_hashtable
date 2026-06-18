@@ -44,6 +44,7 @@ echo
 QMLDIFF_HASHTAB_CREATE="$hashtab" \
 QML_DISABLE_DISK_CACHE=1 \
 LD_PRELOAD="$xovi_so" \
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin \
 /usr/bin/xochitl 2>&1 | while IFS= read -r line; do
     echo -e "$line"
 
